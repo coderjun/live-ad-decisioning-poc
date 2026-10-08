@@ -1,0 +1,6 @@
+[
+  {"id": "viewer-a", "segment": "outdoor enthusiasts, 25 to 34", "interests": ["hiking", "travel", "fitness"], "locale": "en-US", "min_age": 25, "children_in_household": false},
+  {"id": "viewer-b", "segment": "family household with young children", "interests": ["cooking", "animation", "home"], "locale": "en-US", "min_age": 30, "children_in_household": true},
+  {"id": "viewer-c", "segment": "sports fans, 35 to 54", "interests": ["football", "cars", "grilling"], "locale": "en-US", "min_age": 35, "children_in_household": false},
+  {"id": "viewer-d", "segment": "late-night drama viewers, 21 plus", "interests": ["crime drama", "dining out", "music"], "locale": "en-US", "min_age": 21, "children_in_household": false}
+]

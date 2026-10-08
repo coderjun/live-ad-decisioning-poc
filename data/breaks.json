@@ -1,0 +1,51 @@
+[
+  {
+    "id": "break-sports",
+    "daypart": "primetime",
+    "duration_seconds": 60,
+    "content_rating": "TV-PG",
+    "preceding_context": "Fourth-quarter comeback drive. The quarterback scrambles for a first down and the crowd erupts. Commentators praise the team's conditioning in the late-game heat."
+  },
+  {
+    "id": "break-news-aviation",
+    "daypart": "daytime",
+    "duration_seconds": 90,
+    "content_rating": "TV-14",
+    "preceding_context": "Breaking news: a regional passenger jet made an emergency landing after an engine failure. Passengers describe smoke in the cabin. Investigators are on the scene."
+  },
+  {
+    "id": "break-cooking",
+    "daypart": "daytime",
+    "duration_seconds": 30,
+    "content_rating": "TV-G",
+    "preceding_context": "The host finishes a game-day snack board with homemade dip, and two kids help arrange the tray. Light music, bright kitchen."
+  },
+  {
+    "id": "break-drama",
+    "daypart": "late",
+    "duration_seconds": 60,
+    "content_rating": "TV-MA",
+    "preceding_context": "A tense standoff in a dim bar ends with a violent confrontation. The detective leaves shaken and orders a drink alone."
+  },
+  {
+    "id": "break-travel-doc",
+    "daypart": "primetime",
+    "duration_seconds": 30,
+    "content_rating": "TV-G",
+    "preceding_context": "Aerial shots over a mountain range at sunrise. The narrator describes a week of hiking between alpine villages."
+  },
+  {
+    "id": "break-bumper",
+    "daypart": "primetime",
+    "duration_seconds": 5,
+    "content_rating": "TV-PG",
+    "preceding_context": "Halftime scores recap over a graphics package between the two halves of the football game."
+  },
+  {
+    "id": "break-ambiguous",
+    "daypart": "primetime",
+    "duration_seconds": 30,
+    "content_rating": "TV-14",
+    "preceding_context": "A documentary segment on highway safety engineering, including slow-motion crash-test footage and interviews with engineers about modern crumple zones."
+  }
+]

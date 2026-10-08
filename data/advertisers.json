@@ -1,0 +1,115 @@
+[
+  {
+    "id": "adv-airline",
+    "name": "Skyward Air",
+    "category": "travel",
+    "exclude_topics": [
+      "aviation incident",
+      "disaster",
+      "terrorism"
+    ],
+    "flight": {
+      "start": "2026-09-01",
+      "end": "2026-12-31"
+    },
+    "dayparts": [
+      "morning",
+      "daytime",
+      "primetime",
+      "late"
+    ],
+    "frequency_cap_per_hour": 2,
+    "approved_still": "assets/skyward-still.png",
+    "fallback_creative": "assets/skyward-5s.mp4",
+    "approved_end_card": "assets/skyward-endcard.png"
+  },
+  {
+    "id": "adv-snack",
+    "name": "Crunch Co. Pretzels",
+    "category": "snack food",
+    "exclude_topics": [
+      "graphic violence",
+      "mature themes"
+    ],
+    "flight": {
+      "start": "2026-09-15",
+      "end": "2026-11-30"
+    },
+    "dayparts": [
+      "daytime",
+      "primetime"
+    ],
+    "frequency_cap_per_hour": 3,
+    "approved_still": "assets/crunch-still.png",
+    "fallback_creative": "assets/crunch-15s.mp4",
+    "approved_end_card": "assets/crunch-endcard.png"
+  },
+  {
+    "id": "adv-beverage-alcohol",
+    "name": "Harbor Lager",
+    "category": "alcohol",
+    "exclude_topics": [
+      "children's programming",
+      "drunk driving",
+      "addiction"
+    ],
+    "flight": {
+      "start": "2026-09-01",
+      "end": "2026-12-31"
+    },
+    "dayparts": [
+      "primetime",
+      "late"
+    ],
+    "frequency_cap_per_hour": 1,
+    "approved_still": "assets/harbor-still.png",
+    "fallback_creative": "assets/harbor-15s.mp4",
+    "approved_end_card": "assets/harbor-endcard.png"
+  },
+  {
+    "id": "adv-auto",
+    "name": "Meridian Motors",
+    "category": "automotive",
+    "exclude_topics": [
+      "car crash",
+      "vehicle recall"
+    ],
+    "flight": {
+      "start": "2026-08-01",
+      "end": "2026-10-31"
+    },
+    "dayparts": [
+      "morning",
+      "daytime",
+      "primetime",
+      "late"
+    ],
+    "frequency_cap_per_hour": 2,
+    "approved_still": "assets/meridian-still.png",
+    "fallback_creative": "assets/meridian-15s.mp4",
+    "approved_end_card": "assets/meridian-endcard.png"
+  },
+  {
+    "id": "adv-sportsdrink",
+    "name": "Volt Hydration",
+    "category": "sports beverage",
+    "exclude_topics": [
+      "injury",
+      "doping"
+    ],
+    "flight": {
+      "start": "2026-09-01",
+      "end": "2027-01-31"
+    },
+    "dayparts": [
+      "morning",
+      "daytime",
+      "primetime",
+      "late"
+    ],
+    "frequency_cap_per_hour": 3,
+    "approved_still": "assets/volt-still.png",
+    "fallback_creative": "assets/volt-15s.mp4",
+    "approved_end_card": "assets/volt-endcard.png"
+  }
+]

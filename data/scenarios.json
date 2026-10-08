@@ -1,0 +1,30 @@
+{
+  "routes": {
+    "ineligible": "Fails a deterministic rule: daypart, flight, frequency cap, or rating. No model is consulted.",
+    "blocked": "Brand safety is false, or its probability is below threshold. Uncertain safety blocks; a different creative does not fix a bad adjacency.",
+    "fallback": "Brand safe with confidence, but fit is not strong, fit confidence is low, or the break is too short to generate in. The advertiser's pre-approved ad plays if it won the break with a strong fit; otherwise only the house ad.",
+    "generate": "Brand safe and strong fit, both above threshold, and generation fits inside the break. The custom ad plays, then the house ad once."
+  },
+  "scenarios": [
+    { "id": "S01", "break": "break-sports", "viewer": "viewer-c", "advertiser": "adv-sportsdrink", "expected": { "brand_safe": true, "fit": "strong", "route": "generate" } },
+    { "id": "S02", "break": "break-sports", "viewer": "viewer-c", "advertiser": "adv-auto", "expected": { "brand_safe": true, "fit": "weak", "route": "fallback" }, "note": "The audience likes cars; the content is football. Fit is about content, not audience." },
+    { "id": "S03", "break": "break-sports", "viewer": "viewer-a", "advertiser": "adv-airline", "expected": { "brand_safe": true, "fit": "weak", "route": "fallback" } },
+    { "id": "S04", "break": "break-news-aviation", "viewer": "viewer-a", "advertiser": "adv-airline", "expected": { "brand_safe": false, "fit": "none", "route": "blocked" }, "note": "The canonical brand safety failure: an airline next to an aviation emergency." },
+    { "id": "S05", "break": "break-news-aviation", "viewer": "viewer-c", "advertiser": "adv-auto", "expected": { "brand_safe": true, "fit": "none", "route": "fallback" } },
+    { "id": "S06", "break": "break-news-aviation", "viewer": "viewer-b", "advertiser": "adv-snack", "expected": { "brand_safe": true, "fit": "none", "route": "fallback" } },
+    { "id": "S07", "break": "break-news-aviation", "viewer": "viewer-a", "advertiser": "adv-sportsdrink", "expected": { "brand_safe": true, "fit": "none", "route": "fallback" } },
+    { "id": "S08", "break": "break-cooking", "viewer": "viewer-b", "advertiser": "adv-snack", "expected": { "brand_safe": true, "fit": "strong", "route": "generate" }, "note": "A game-day snack board, a snack brand, a family household." },
+    { "id": "S09", "break": "break-cooking", "viewer": "viewer-b", "advertiser": "adv-beverage-alcohol", "expected": { "brand_safe": false, "fit": "none", "route": "ineligible" }, "note": "Rules catch it first: alcohol runs late only. The model never sees it." },
+    { "id": "S10", "break": "break-cooking", "viewer": "viewer-b", "advertiser": "adv-sportsdrink", "expected": { "brand_safe": true, "fit": "weak", "route": "fallback" } },
+    { "id": "S11", "break": "break-drama", "viewer": "viewer-d", "advertiser": "adv-beverage-alcohol", "expected": { "brand_safe": false, "fit": "weak", "route": "blocked" }, "note": "The rules say eligible. Judgment says no: drinking alone after violence reads close to addiction, which the advertiser excludes. This is the case that justifies the model." },
+    { "id": "S12", "break": "break-drama", "viewer": "viewer-d", "advertiser": "adv-snack", "expected": { "brand_safe": false, "fit": "none", "route": "ineligible" }, "note": "Rules catch it: snack runs daytime and primetime only." },
+    { "id": "S13", "break": "break-drama", "viewer": "viewer-d", "advertiser": "adv-auto", "expected": { "brand_safe": true, "fit": "none", "route": "fallback" } },
+    { "id": "S14", "break": "break-travel-doc", "viewer": "viewer-a", "advertiser": "adv-airline", "expected": { "brand_safe": true, "fit": "strong", "route": "generate" } },
+    { "id": "S15", "break": "break-travel-doc", "viewer": "viewer-a", "advertiser": "adv-sportsdrink", "expected": { "brand_safe": true, "fit": "strong", "route": "generate" } },
+    { "id": "S16", "break": "break-travel-doc", "viewer": "viewer-a", "advertiser": "adv-auto", "expected": { "brand_safe": true, "fit": "weak", "route": "fallback" } },
+    { "id": "S17", "break": "break-bumper", "viewer": "viewer-c", "advertiser": "adv-sportsdrink", "expected": { "brand_safe": true, "fit": "strong", "route": "fallback" }, "note": "Every judgment clears, but a five-second break cannot fit generation. The deadline gate, not the model, decides." },
+    { "id": "S18", "break": "break-ambiguous", "viewer": "viewer-c", "advertiser": "adv-auto", "expected": { "brand_safe": false, "fit": "weak", "route": "blocked" }, "note": "Crash-test footage against an advertiser that excludes car crashes. Genuinely ambiguous; expect low confidence, and low confidence on safety blocks." },
+    { "id": "S19", "break": "break-ambiguous", "viewer": "viewer-c", "advertiser": "adv-sportsdrink", "expected": { "brand_safe": true, "fit": "none", "route": "fallback" } },
+    { "id": "S20", "break": "break-sports", "viewer": "viewer-c", "advertiser": "adv-beverage-alcohol", "expected": { "brand_safe": true, "fit": "strong", "route": "generate" }, "note": "Beer and football for an adult viewer with no children at home: the audience rule allows it, and the judgment should too." }
+  ]
+}

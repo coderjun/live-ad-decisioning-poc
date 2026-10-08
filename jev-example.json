@@ -1,0 +1,183 @@
+[
+{"request":
+{
+  "model": "jev-latest",
+  "state": "Content rating: TV-PG\nThe segment just before the ad break: Fourth-quarter comeback drive. The quarterback scrambles for a first down and the crowd erupts. Commentators praise the team's conditioning in the late-game heat.",
+  "questions": {
+    "category": {
+      "type": "choice",
+      "instructions": "The category of this content",
+      "criteria": {
+        "sports": "Sport",
+        "news": "News and current events",
+        "food": "Cooking and food",
+        "drama": "Scripted drama",
+        "travel": "Travel and nature",
+        "factual": "Factual and documentary",
+        "other": "Anything else"
+      }
+    },
+    "safe_adv-airline": {
+      "type": "noul",
+      "instructions": "It is brand safe for Skyward Air, a travel advertiser, to run an ad right after this content. The advertiser refuses to appear next to: aviation incident, disaster, terrorism."
+    },
+    "fit_adv-airline": {
+      "type": "choice",
+      "criteria": {
+        "strong": "The ad naturally complements this content",
+        "weak": "Loosely related or neutral to this content",
+        "none": "Unrelated to this content"
+      },
+      "instructions": "How well an ad for Skyward Air, a travel brand, fits this content itself, regardless of who is watching"
+    },
+    "safe_adv-snack": {
+      "type": "noul",
+      "instructions": "It is brand safe for Crunch Co. Pretzels, a snack food advertiser, to run an ad right after this content. The advertiser refuses to appear next to: graphic violence, mature themes."
+    },
+    "fit_adv-snack": {
+      "type": "choice",
+      "criteria": {
+        "strong": "The ad naturally complements this content",
+        "weak": "Loosely related or neutral to this content",
+        "none": "Unrelated to this content"
+      },
+      "instructions": "How well an ad for Crunch Co. Pretzels, a snack food brand, fits this content itself, regardless of who is watching"
+    },
+    "safe_adv-beverage-alcohol": {
+      "type": "noul",
+      "instructions": "It is brand safe for Harbor Lager, a alcohol advertiser, to run an ad right after this content. The advertiser refuses to appear next to: children's programming, drunk driving, addiction."
+    },
+    "fit_adv-beverage-alcohol": {
+      "type": "choice",
+      "criteria": {
+        "strong": "The ad naturally complements this content",
+        "weak": "Loosely related or neutral to this content",
+        "none": "Unrelated to this content"
+      },
+      "instructions": "How well an ad for Harbor Lager, a alcohol brand, fits this content itself, regardless of who is watching"
+    },
+    "safe_adv-auto": {
+      "type": "noul",
+      "instructions": "It is brand safe for Meridian Motors, a automotive advertiser, to run an ad right after this content. The advertiser refuses to appear next to: car crash, vehicle recall."
+    },
+    "fit_adv-auto": {
+      "type": "choice",
+      "criteria": {
+        "strong": "The ad naturally complements this content",
+        "weak": "Loosely related or neutral to this content",
+        "none": "Unrelated to this content"
+      },
+      "instructions": "How well an ad for Meridian Motors, a automotive brand, fits this content itself, regardless of who is watching"
+    },
+    "safe_adv-sportsdrink": {
+      "type": "noul",
+      "instructions": "It is brand safe for Volt Hydration, a sports beverage advertiser, to run an ad right after this content. The advertiser refuses to appear next to: injury, doping."
+    },
+    "fit_adv-sportsdrink": {
+      "type": "choice",
+      "criteria": {
+        "strong": "The ad naturally complements this content",
+        "weak": "Loosely related or neutral to this content",
+        "none": "Unrelated to this content"
+      },
+      "instructions": "How well an ad for Volt Hydration, a sports beverage brand, fits this content itself, regardless of who is watching"
+    }
+  }
+}
+},
+{"response":
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "category": {
+      "type": "choice",
+      "choice": "sports",
+      "confidence": 1,
+      "probabilities": {
+        "sports": 1,
+        "food": 0,
+        "drama": 0,
+        "factual": 0,
+        "travel": 0,
+        "other": 0,
+        "news": 0
+      }
+    },
+    "safe_adv-airline": {
+      "type": "noul",
+      "noul": 0.94
+    },
+    "fit_adv-airline": {
+      "type": "choice",
+      "choice": "weak",
+      "confidence": 0.49,
+      "probabilities": {
+        "weak": 0.66,
+        "strong": 0.02,
+        "none": 0.32
+      }
+    },
+    "safe_adv-snack": {
+      "type": "noul",
+      "noul": 0.94
+    },
+    "fit_adv-snack": {
+      "type": "choice",
+      "choice": "strong",
+      "confidence": 0.42,
+      "probabilities": {
+        "weak": 0.37,
+        "strong": 0.62,
+        "none": 0.01
+      }
+    },
+    "safe_adv-beverage-alcohol": {
+      "type": "noul",
+      "noul": 0.69
+    },
+    "fit_adv-beverage-alcohol": {
+      "type": "choice",
+      "choice": "weak",
+      "confidence": 0.24,
+      "probabilities": {
+        "weak": 0.49,
+        "none": 0.04,
+        "strong": 0.47
+      }
+    },
+    "safe_adv-auto": {
+      "type": "noul",
+      "noul": 0.93
+    },
+    "fit_adv-auto": {
+      "type": "choice",
+      "choice": "weak",
+      "confidence": 0.64,
+      "probabilities": {
+        "weak": 0.75,
+        "none": 0.08,
+        "strong": 0.17
+      }
+    },
+    "safe_adv-sportsdrink": {
+      "type": "noul",
+      "noul": 0.91
+    },
+    "fit_adv-sportsdrink": {
+      "type": "choice",
+      "choice": "strong",
+      "confidence": 1,
+      "probabilities": {
+        "weak": 0,
+        "strong": 1,
+        "none": 0
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 1139,
+    "output_tokens": 365
+  }
+}
+}
+]

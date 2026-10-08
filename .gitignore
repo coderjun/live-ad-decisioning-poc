@@ -3,3 +3,9 @@ __pycache__/
 .env
 media/
 .DS_Store
+# Large media: published separately, not in git
+assets/*.mp4
+assets/*.png
+# Local-only
+.claude/settings.local.json
+mvp-check/

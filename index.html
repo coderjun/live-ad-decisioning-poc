@@ -1,0 +1,163 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Ad Decisioning</title>
+<style>
+  /* The page fits the window: the player shrinks with the window's height and the console fills the rest,
+     scrolling inside itself. Below the minimum height the page scrolls instead. */
+  body { font: 14px system-ui, sans-serif; margin: 0 auto; padding: 16px; max-width: 960px; height: 100vh;
+         min-height: 560px; box-sizing: border-box; display: flex; flex-direction: column; background: #111; color: #eee; }
+  h1 { font-size: 22px; margin: 0 0 8px; }
+  #screen { position: relative; aspect-ratio: 16/9; width: min(100%, 55vh * 16 / 9); margin: 0 auto; background: #000; }
+  #screen video { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #ad[hidden] { display: none; }
+  #status { margin: 8px 0; color: #9ab; }
+  pre { flex: 1; min-height: 120px; background: #1c1c24; padding: 12px; margin: 0; white-space: pre-wrap; font-size: 12px; overflow: auto; }
+</style>
+<h1>Live Ad Decisioning</h1>
+<p>
+  Viewer <select id="viewer"></select>
+  <label><input type="checkbox" id="generate"> Allow personalized generation (spends the daily fal budget)</label>
+  <button id="start">Start with sound</button>
+  <button id="freeze">Freeze</button>
+</p>
+<div id="screen"><video id="live" muted autoplay playsinline></video><video id="ad" playsinline hidden></video></div>
+<div id="status">Watching live. Waiting for an ad break.</div>
+<pre id="log"></pre>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.6/dist/hls.min.js"></script>
+<script type="module">
+const $ = id => document.getElementById(id);
+const live = $('live'), ad = $('ad');
+
+const [viewers, advertisers] = await Promise.all(['data/viewers.json', 'data/advertisers.json'].map(url => fetch(url).then(r => r.json())));
+const advertiserName = Object.fromEntries(advertisers.map(a => [a.id, a.name]));
+$('viewer').innerHTML = viewers.map(v => `<option value="${v.id}">${v.segment}</option>`).join('');
+$('start').onclick = () => { live.muted = false; if (!frozen) live.play(); };
+
+const post = (url, body = {}) => fetch(url, { method: 'POST', body: JSON.stringify(body) }).then(r => r.json());
+post('resume');  // in case a previous page left the stream paused mid-break
+
+// Freeze stops everything, the program or the ad playing and the server's stream clock, until pressed again.
+let frozen = false, inBreak = false;
+$('freeze').onclick = async () => {
+  frozen = !frozen;
+  $('freeze').textContent = frozen ? 'Unfreeze' : 'Freeze';
+  if (frozen) {
+    live.pause();
+    ad.pause();
+    await post('pause');
+    print('Frozen. Press Unfreeze to continue.');
+  } else {
+    print('Unfrozen.');
+    if (inBreak) return ad.play();
+    await post('resume');
+    live.play();
+  }
+};
+
+const hls = new Hls();
+hls.loadSource('live.m3u8');
+hls.attachMedia(live);
+
+// Each break is a DATERANGE in the playlist. It starts when the playhead's program date-time reaches it.
+const handled = new Set();
+live.ontimeupdate = () => {
+  const now = hls.playingDate;
+  for (const cue of Object.values(hls.levels[0]?.details?.dateRanges ?? {})) {
+    if (now && cue.startDate <= now && !handled.has(cue.id)) {
+      handled.add(cue.id);
+      playBreak(cue.attr['X-BREAK-ID']);
+    }
+  }
+};
+
+// Pause the program, play each ad once, then resume the program where it left off.
+async function playBreak(breakId) {
+  inBreak = true;
+  live.pause();
+  ad.muted = live.muted;
+  ad.hidden = false;
+  $('status').textContent = `Ad break ${breakId}: deciding...`;
+  print(`Ad break ${breakId} reached. Program paused; asking /decide for ${$('viewer').value}.`);
+  const { items, log } = await post('decide', { break_id: breakId, viewer_id: $('viewer').value, generate: $('generate').checked });
+  log.api_calls.forEach(printCall);
+  print(describe(log));
+
+  let secondsLeft = log.break_seconds;  // counts only time spent playing, so Freeze doesn't use up the break
+  for (let item of items) {
+    if (item.generating) {
+      print(`Custom ad ${item.src} is being generated. Playing the network ad until it is ready.`);
+      $('status').textContent = `Ad break ${breakId}: network ad while the custom ad generates`;
+      const ready = async () => (await getJob(item.src)).state !== 'generating';
+      secondsLeft -= await play(item.filler, secondsLeft - item.seconds, { loop: true, stopWhen: ready });
+      const job = await getJob(item.src);
+      job.api_calls?.forEach(printCall);
+      if (job.state === 'ready') {
+        print(`Custom ad ready. Switching to it now.`);
+      } else {
+        item = item.fallback;
+        print(job.state === 'failed' ? `Generation failed (${job.error}), so the pre-approved ad plays instead.`
+                                     : `Generation isn't done in time for this break, so the pre-approved ad plays instead.`);
+      }
+    }
+    if (item.seconds > secondsLeft + 0.5) {
+      print(`Skipping ${item.src}: ${Math.round(item.seconds)}s doesn't fit the ${Math.round(secondsLeft)}s left.`);
+      continue;
+    }
+    $('status').textContent = `Ad break ${breakId}: playing ${item.src.split('/').pop()}`;
+    print(`Playing ${item.src} (${Math.round(item.seconds)}s)`);
+    secondsLeft -= await play(item.src, Math.min(item.seconds, secondsLeft));
+  }
+  ad.pause();
+  ad.hidden = true;
+  print(`Ad break ${breakId} over. Program resumed.`);
+  $('status').textContent = 'Watching live. Waiting for an ad break.';
+  inBreak = false;
+  await post('resume');
+  live.play();
+}
+
+// Play src on the ad layer for up to maxSeconds, or until stopWhen() says to stop (checked every second).
+// Resolves with the seconds actually played; a frozen player plays nothing, so the break waits.
+function play(src, maxSeconds, { loop = false, stopWhen } = {}) {
+  return new Promise(done => {
+    let played = 0, last = 0;
+    const finish = () => { clearInterval(poll); ad.ontimeupdate = ad.onended = ad.onerror = null; done(played); };
+    const poll = stopWhen && setInterval(async () => { if (await stopWhen()) finish(); }, 1000);
+    ad.src = src;
+    ad.loop = loop;
+    ad.ontimeupdate = () => {
+      played += ad.currentTime >= last ? ad.currentTime - last : ad.currentTime;  // a loop restarts at 0
+      last = ad.currentTime;
+      if (played >= maxSeconds) finish();
+    };
+    ad.onended = ad.onerror = finish;
+    if (maxSeconds <= 0) return finish();
+    if (!frozen) ad.play().catch(finish);
+  });
+}
+
+const getJob = src => fetch(`job?src=${encodeURIComponent(src)}`).then(r => r.json());
+
+const printCall = call => print(`${call.url} (${call.ms} ms)\nRequest:\n${JSON.stringify(call.request, null, 2)}\n` +
+  (call.error ? `Error: ${call.error}` : `Response:\n${JSON.stringify(call.response, null, 2)}`));
+
+// The console shows the newest entry first, like tail -f turned upside down.
+function print(text) {
+  const entry = `[${new Date().toLocaleTimeString()}] ${text}\n\n`;
+  $('log').textContent = (entry + $('log').textContent).slice(0, 500_000);
+}
+
+function describe(log) {
+  const lines = [`${log.break}, ${log.break_seconds}s. Jev says the content is ${log.category ?? 'unknown (not judged)'}.`,
+    `Brand safe needs ${log.thresholds.brand_safe}. A custom ad needs a strong fit, at least ${log.thresholds.fit} sure.`,
+    '', log.result, ''];
+  for (const c of log.candidates) {
+    const scores = c.p_safe === undefined ? '' : `   brand safe ${c.p_safe.toFixed(2)}, fit ${c.fit} (strong ${c.p_strong.toFixed(2)})`;
+    lines.push(advertiserName[c.advertiser] + scores, `   ${c.outcome}`);
+  }
+  if (log.judge_error) lines.push('', `Jev error: ${log.judge_error}`);
+  lines.push('', 'Plays: ' + log.items.map(item => `${item.src.split('/').pop()} (${Math.round(item.seconds)}s)`).join(', then ') + ', then back to the program.');
+  return lines.join('\n');
+}
+</script>

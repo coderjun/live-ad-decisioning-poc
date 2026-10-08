@@ -1,0 +1,8 @@
+{
+  "id": "house-network-promo",
+  "name": "Network promo",
+  "description": "The network's own promotion. Never evaluated by rules or judgment: it is the slot filler when no advertiser clears brand safety, so it must be safe next to any content.",
+  "creative": "assets/house-15s.mp4",
+  "approved_still": "assets/house-still.png",
+  "approved_end_card": "assets/house-endcard.png"
+}
