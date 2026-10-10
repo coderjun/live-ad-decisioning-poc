@@ -1,0 +1,15 @@
+{
+  "name": "@lad/bench",
+  "private": true,
+  "type": "module",
+  "description": "The asset-readiness benchmark: replays cue traces and reports each hop at p50, p95, and p99",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@lad/contracts": "workspace:*"
+  }
+}

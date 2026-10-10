@@ -1,11 +1,19 @@
+# Python baseline
 .venv/
 __pycache__/
+# Secrets and local settings
 .env
-media/
-.DS_Store
-# Large media: published separately, not in git
-assets/*.mp4
-assets/*.png
-# Local-only
 .claude/settings.local.json
+# Generated at runtime: decision logs, cached creatives, encoded streams
+media/
+# Large media: published separately, not in git
+**/assets/*.mp4
+**/assets/*.png
+# Node
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+# Planning notes (personal; not part of the public repo)
 mvp-check/
+.DS_Store
