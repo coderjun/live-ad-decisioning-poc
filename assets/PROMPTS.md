@@ -1,32 +1,40 @@
 # Asset prompts
 
 Every brand, product, and creative in this POC is fictional and AI-generated.
-The approved stills, end cards, and pre-approved 15-second creatives were made
-in ChatGPT, one conversation per brand, with the prompts below. The
-personalized creatives made at runtime come from a different model, fal's H3
+The approved stills and end cards were made in ChatGPT, one conversation per 
+brand, with the prompts below. 
+
+The pre-approved and personalized creatives made at runtime come from a different model, fal's H3
 Max Turbo, anchored to these same approved stills and end cards.
 
 ## What each brand needs
 
 | File | What it is |
 | --- | --- |
-| `<slug>-still.jpg` | Approved first frame. Generated creatives start here |
-| `<slug>-endcard.jpg` | Approved last frame: brand name and tagline. Generated creatives end here |
+| `<slug>-still.png` | Approved first frame. Generated creatives start here |
+| `<slug>-endcard.png` | Approved last frame: brand name and tagline. Generated creatives end here |
 | `<slug>-15s.mp4` | The pre-approved creative, played when fit is weaker |
 
 Slugs: `skyward`, `crunch`, `harbor`, `meridian`, `volt`, `house`.
 
 ## How to run each brand
 
-One new ChatGPT conversation per brand. Four messages, in order:
+### How to run each brand (Still and Endcard)
+One new ChatGPT conversation per brand. Three messages, in order:
 
 1. **Brief.** Paste the brand's brief. It sets the rules for the whole
    conversation, so the later prompts stay short.
-2. **Still.** Paste the still prompt. Save the image as `<slug>-still.jpg`.
+2. **Still.** Paste the still prompt. Save the image as `<slug>-still.png`.
 3. **End card.** Paste the end card prompt. Check the lettering. Save as
-   `<slug>-endcard.jpg`. If any letter is wrong, ask once for a fix, then use
-   the ffmpeg fallback at the bottom.
-4. **Video.** Attach the still and the end card, then paste the video prompt.
+   `<slug>-endcard.png`. If any letter is wrong, ask once for a fix, otherwise tell it to 
+   generate w/o text and use the ffmpeg fallback at the bottom.
+
+
+### How to run each brand (Pre-approved mp4)
+
+One new fal H3 Max Turbo generation per brand:
+
+1. **Video.** Attach the still and the end card, then paste the video prompt.
    Save as `<slug>-15s.mp4`.
 
 **Review every result before keeping it.** That review is what makes the
@@ -212,10 +220,10 @@ Make a 15-second video that opens on the first image and ends on the second. Rib
 ## Fallback: exact end card text with ffmpeg
 
 Use this only if ChatGPT keeps misspelling the lettering. Ask it for the end
-card background with no text, save it as `<slug>-endcard-bg.jpg`, then:
+card background with no text, save it as `<slug>-endcard-bg.png`, then:
 
 ```bash
-ffmpeg -y -i assets/skyward-endcard-bg.jpg -vf "drawtext=text='Skyward Air':fontcolor=white:fontsize=72:x=(w-text_w)/2:y=(h-text_h)/2-40,drawtext=text='Go further, rested.':fontcolor=white:fontsize=36:x=(w-text_w)/2:y=(h-text_h)/2+50" assets/skyward-endcard.jpg
+ffmpeg -y -i assets/skyward-endcard-bg.png -vf "drawtext=text='Skyward Air':fontcolor=white:fontsize=72:x=(w-text_w)/2:y=(h-text_h)/2-40,drawtext=text='Go further, rested.':fontcolor=white:fontsize=36:x=(w-text_w)/2:y=(h-text_h)/2+50" assets/skyward-endcard.png
 ```
 
 If `drawtext` fails for lack of a font library, add the text in any image

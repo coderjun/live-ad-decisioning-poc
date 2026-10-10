@@ -18,7 +18,7 @@ picks it up on its next start.
 | `program-break-sports.mp4` | TV-PG | Football comeback drive, crowd erupts |
 | `program-break-news-aviation.mp4` | TV-14 | News desk: emergency landing report |
 | `program-break-cooking.mp4` | TV-G | Game-day snack board, kids helping |
-| `program-break-drama.mp4` | TV-MA | Detective leaves a bar shaken, orders a drink |
+| `program-break-drama.mp4` | TV-MA | Detective enters a bar shaken, orders a drink |
 | `program-break-travel-doc.mp4` | TV-G | Aerial sunrise over alpine villages |
 | `program-break-bumper.mp4` | TV-PG | Halftime scores graphics |
 | `program-break-ambiguous.mp4` | TV-14 | Crash-test documentary |
@@ -59,7 +59,7 @@ A bright home kitchen cooking show. The host sets a bowl of homemade dip in the 
 **program-break-drama.mp4**
 
 ```text
-Crime drama, a dim moody bar at night. A detective in a rumpled coat stands at the bar after a tense confrontation, overturned stool and broken glass behind him, breathing hard. He sits, loosens his tie, and signals the bartender for a drink. Cinematic, noir lighting. No blood.
+Crime drama, a dim moody bar at night. A detective in a rumpled coat walks into and stands at the bar after a tense confrontation, overturned stool and broken glass behind him, breathing hard. He sits, loosens his tie, and signals the bartender for a drink. Cinematic, noir lighting. No blood.
 ```
 
 **program-break-travel-doc.mp4**

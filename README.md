@@ -1,8 +1,23 @@
 # Live Ad Decisioning: the right tool at each layer
 
-A proof of concept for deciding what plays in a live streaming ad break when
+This is a proof of concept for deciding what plays in a live streaming ad break when
 brand safety, contextual fit, personalization, and a hard time limit all apply
-at once. Author: Jun Heider. First published 2026-09-30.
+at once. 
+
+The initial inspiration for this POC was based on a convo I had with a good friend 
+[Sarge Sargent](https://www.linkedin.com/in/sargeway/) back in July 2025 while we were hanging out at 
+[BuffConf 2025](https://buffconf.gomomento.com/past-sessions) in Seattle, WA. 
+
+Sarge was describing an idea about creating brand safe and highly tuned personalized ads on the fly 
+for live streams using GenAI. I thought the idea was really interesting but at the time I 
+didn't personally think available technology had quite gotten fast enough to make it happen.
+
+However, with recent releases and trends of "System One" decision models like [TypeSafe AI's Jev](https://typesafe.ai/) 
+and faster than real time video generation models 
+like [Fal's H3 Max Turbo](https://fal.ai/models/minimax/h3-max-turbo/image-to-video) 
+I thought it might be fun to take his idea for a spin.
+
+Author: Jun Heider. First published 2026-09-30.
 
 ## The problem
 
@@ -152,19 +167,6 @@ Player (static hls.js page) --- break reached, duration D ---> Ad intelligence A
   audit. In this POC the approved assets are placeholder cards; in production
   they come from the advertiser's asset library.
 - **All data is test data** this is a POC.
-
-## Status
-
-| Piece | State |
-| --- | --- |
-| Architecture and method | In Progress |
-| Dummy data: advertisers, viewers, breaks, labeled scenarios | Done |
-| Live HLS stream with SCTE-35 cues | In progress |
-| Player with break handling, static hls.js page | In progress |
-| Eligibility rules | In progress |
-| Typed judgments and threshold gate | In progress |
-| Creative cache, generate on miss, fallback | Done |
-| Scorecard over labeled scenarios | In progress |
 
 ## Data and media
 
