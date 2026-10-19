@@ -28,7 +28,7 @@ An open experiment: can a personalized, generated ad be ready and playable betwe
 - Services talk over HTTP, never by importing each other.
 - Code decides facts; models make judgment calls. Eligibility, timing, budgets, and gates are deterministic code with tests. Only the Judge and the Generator call models, and each sits behind an interface with a replay or stub implementation.
 - Deterministic by default. Tests and the benchmark's default mode never call a paid API or need a key.
-- Every trace event uses the names in `packages/contracts`: `Hop` for the deadline chain, `CreativeStage` for making a creative ready. Each hop has one authoritative recorder (`authoritativeRecorder`). Don't invent event names in a service, and leave correlation fields out rather than guessing them. Clock rules are in `docs/spec.md` (CLOCK-1 to CLOCK-4).
+- Every trace event uses the names in `packages/contracts`: `Hop` for the deadline chain; `SourceStage`, `CreativeStage`, `DecisionStage`, and `AdAssetStage` for the timed steps between hops, each `_started` then `_completed` or `_failed`. Each hop has one authoritative recorder (`authoritativeRecorder`). Don't invent event names in a service, and leave correlation fields out rather than guessing them. Clock rules are in `docs/spec.md` (CLOCK-1 to CLOCK-6).
 - Changing behavior that the characterization tests cover is a decision, not a refactor. Say so and update the spec.
 - No secrets in code, tests, or fixtures. Keys come from `.env`, which is never committed.
 - Keep changes small and on a branch. Don't push or open pull requests unless asked.
