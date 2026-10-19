@@ -1,0 +1,16 @@
+{
+  "name": "@lad/player",
+  "private": true,
+  "type": "module",
+  "description": "Plays the stream and timestamps each hop the player can see",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@lad/contracts": "workspace:*",
+    "hls.js": "^1.7.3"
+  }
+}

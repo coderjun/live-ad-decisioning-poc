@@ -1,0 +1,17 @@
+{
+  "name": "@lad/decision",
+  "private": true,
+  "type": "module",
+  "description": "Answers the player's interstitial asset-list request: rules, Judge, and the ready creative",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@lad/contracts": "workspace:*",
+    "hono": "^4.13.13",
+    "zod": "^4.6.5"
+  }
+}

@@ -1,0 +1,7 @@
+packages:
+  - packages/*
+  - services/*
+  - apps/*
+  - bench
+ignoredBuiltDependencies:
+  - lefthook  # hooks are installed by the root "prepare" script instead

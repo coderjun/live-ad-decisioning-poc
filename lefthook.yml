@@ -1,0 +1,22 @@
+# Git hooks: the same deterministic gates CI runs, caught before they leave the machine.
+pre-commit:
+  parallel: true
+  commands:
+    format-and-lint:
+      glob: "*.{ts,tsx,js,mjs,json,jsonc}"
+      run: pnpm exec biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+    typecheck:
+      glob: "*.{ts,tsx}"
+      run: pnpm typecheck
+    secrets:
+      run: |
+        if command -v gitleaks >/dev/null; then
+          gitleaks git --pre-commit --staged --redact --no-banner
+        else
+          echo "gitleaks is not installed, so secrets were not scanned locally (CI still scans). Install: brew install gitleaks"
+        fi
+pre-push:
+  commands:
+    test:
+      run: pnpm test

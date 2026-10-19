@@ -1,0 +1,15 @@
+{
+  "name": "@lad/contracts",
+  "private": true,
+  "type": "module",
+  "description": "Typed contracts shared by every service: the deadline chain, decisions, and asset lists",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@lad/mapper",
+  "private": true,
+  "type": "module",
+  "description": "Turns SCTE-35 cues in a live HLS playlist into HLS Interstitials",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@lad/contracts": "workspace:*"
+  }
+}
